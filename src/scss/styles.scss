@@ -1,0 +1,17 @@
+@import "./bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+    --bs-body-font-family: 'Inter';
+}
+
+.temp {
+    font-size: 128px;
+    font-weight: 300;
+}
+
+.c {
+    font-size: 48px;
+    color: rgba($color: #000000, $alpha: 0.4);
+}
