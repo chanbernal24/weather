@@ -2,6 +2,8 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+$enable-grid-classes: false;
+$enable-cssgrid: true;
 
 * {
     margin: none;
@@ -34,4 +36,12 @@
 
 .week {
     gap : 0.75rem;
+}
+
+.grid-higlight {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(auto-fill, minmax(305px, 1fr));
+    width: 59.3125rem;
+    gap: .625rem;
 }
