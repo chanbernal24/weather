@@ -14,7 +14,7 @@
                 <div class="container-fluid h-100 m-0 px-3 py-4 d-flex justify-content-center">
                     <div class="d-flex flex-column left w-100">
 
-                        <div class="input-group d-flex align-items-center bg-body-secondary px-2 rounded">
+                        <div class="d-flex align-items-center bg-body-secondary px-2 rounded">
                             <i class="bi bi-search border"></i>
                             <form method="POST">
                                 <input type="text" class="form-control border border-0 bg-body-secondary"
@@ -47,19 +47,19 @@
                                     <p id="location">Manila, Philippines</p>
                                 </div>
                                 <!-- Description -->
-                                <div class="input-group m-0 p-0 ">
+                                <div class="m-0 p-0 d-flex ">
                                     <i class="bi bi-cloud me-2"></i>
-                                    <p>Mostly rainy</p>
+                                    <p id="description" class="text-wrap h-100 " style="font-size: .8rem;">Mostly rainy</p>
                                 </div>
                                 <!-- Sunrise -->
                                 <div class="input-group m-0 p-0 ">
                                     <i class="bi bi-sunrise me-2"></i>
-                                    <p>5:42 AM</p>
+                                    <p id="sunrise">5:42 AM</p>
                                 </div>
                                 <!-- Sunset -->
                                 <div class="input-group m-0 p-0 ">
                                     <i class="bi bi-sunset me-2"></i>
-                                    <p>6:03 PM</p>
+                                    <p id="sunset">6:03 PM</p>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                                     style="width: 19.1875rem; height: 18rem;">
                                     <div class="d-flex align-items-center flex-column ">
                                         <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);">UV Index</h5>
-                                        <p style="font-size: 4rem; font-weight: 200;">5</p>
+                                        <p style="font-size: 4rem; font-weight: 200;" id="uvIndex">5</p>
                                     </div>
                                     <img src="src/assets/sun.png" alt="" class="position-absolute top-0" >
                                 </div>
@@ -151,8 +151,8 @@
                                 <div class="card border border-0 d-flex align-items-center p-4 overflow-hidden"
                                     style="width: 19.1875rem; height: 18rem;">
                                     <div class="d-flex align-items-center flex-column ">
-                                        <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);">Wind Status</h5>
-                                        <p style="font-size: 4rem; font-weight: 200;">4</p>
+                                        <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);" >Wind Status</h5>
+                                        <p style="font-size: 4rem; font-weight: 200;" id="windStatus">4</p>
                                     </div>
                                     <img src="src/assets/wind.png" alt="" class="position-absolute top-50" style="z-index: 1;">
                                 </div>
@@ -162,8 +162,8 @@
                                 <div class="card border border-0 d-flex align-items-center p-4 overflow-hidden"
                                     style="width: 19.1875rem; height: 18rem;">
                                     <div class="d-flex align-items-center flex-column ">
-                                        <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);">Precipitation Chance</h5>
-                                        <p style="font-size: 4rem; font-weight: 200;">5</p>
+                                        <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);" >Precipitation Chance</h5>
+                                        <p style="font-size: 4rem; font-weight: 200;" id="precipitationChance">5</p>
                                     </div>
                                     <img src="src/assets/rain.png" alt="" class="position-absolute start-0 bottom-0" >
                                 </div>
@@ -174,7 +174,7 @@
                                     style="width: 19.1875rem; height: 18rem;">
                                     <div class="d-flex align-items-center flex-column ">
                                         <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);">Humidity</h5>
-                                        <p style="font-size: 4rem; font-weight: 200;">5</p>
+                                        <p style="font-size: 4rem; font-weight: 200;" id="humidity">5</p>
                                     </div>
                                     <img src="src/assets/humid.png" alt="" class="position-absolute center bottom-0">
                                 </div>
@@ -184,8 +184,8 @@
                                 <div class="card border border-0 d-flex align-items-center p-4 overflow-hidden"
                                     style="width: 19.1875rem; height: 18rem;">
                                     <div class="d-flex align-items-center flex-column ">
-                                        <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);">Visbility</h5>
-                                        <p style="font-size: 4rem; font-weight: 200;" >5</p>
+                                        <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);" >Visibility</h5>
+                                        <p style="font-size: 4rem; font-weight: 200;" id="visibility">5</p>
                                     </div>
                                     <img src="src/assets/fog.png" alt="" class="position-absolute top-50">
                                 </div>
@@ -195,7 +195,7 @@
                                 <div class="card border border-0 d-flex align-items-center p-4 overflow-hidden"
                                     style="width: 19.1875rem; height: 18rem;">
                                     <div class="d-flex align-items-center flex-column ">
-                                        <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);">Moonphase</h5>
+                                        <h5 class="fw-bold" style="color: rgba(0, 0, 0, .5);" id="moonphase">Moonphase</h5>
                                         <p style="font-size: 4rem; font-weight: 200;">5</p>
                                     </div>
                                     <img src="src/assets/moon.png" alt="" class="position-absolute top-50">
