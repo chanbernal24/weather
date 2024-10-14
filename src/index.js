@@ -6,4 +6,4 @@ import LocationController from './controllers/location_controller'
 
 
 
-let locationController = new LocationController()
+// let locationController = new LocationController()
