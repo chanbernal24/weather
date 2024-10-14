@@ -1,6 +1,7 @@
 import rainyImage from '../assets/rainy.png';
 import cloudyImage from '../assets/cloudy.png';
 import sunnyImage from '../assets/sunny.png';
+import WeatherCardComponent from '../views/components/weather_card_component';
 
 class LocationData {
     constructor() {
@@ -49,6 +50,18 @@ class LocationData {
         return days[0]["icon"]
     }
 
+    weatherImagesWeeklyReport = async () => {
+        let jsonDataDays = await this.mapWeatherDays()
+        let images = []
+        let daysLength = this.dateToString().length - 1
+
+        for (let i = 0; i <= daysLength; i++) {
+            images.push(jsonDataDays[i]["icon"])
+        }
+
+        return images
+    }
+
     // returns the temperature TODAY
     getTemperatureToday = async () => {
         let data = await this.mapWeatherDays()
@@ -56,12 +69,23 @@ class LocationData {
         return data[0]["temp"]
     }
 
-    // returns the Day PARSED value in WORDS FROM A NUMBER and time value in NUMBER
-    dateAndTimeToString = () => {
 
-        let dayAndTime;
-        let value = this.getDayAndTime().day
-        let time = this.getDayAndTime().time
+    // returns the WEEKLY REPORT'S DAYS IN AN ARRAY
+    mapDateTime = () => {
+        let data = this.mapWeatherDays()
+        let days = []
+        data.map(day => {
+            let whatDay = new Date.getDay(day["datetime"]) 
+            let whatDayInteger = this.dateToString(whatDay)
+            data.push(whatDayInteger)
+
+        })
+
+        return days
+    }
+
+    // returns the DAY in STRING
+    dateToString = () => {
         let days = {
             0: "Sunday",
             1: "Monday",
@@ -71,6 +95,33 @@ class LocationData {
             5: "Friday",
             6: "Saturday",
         }
+
+        return days
+    }
+
+
+    // THIS IS YET TO BE IMPLEMENTED IN THE NEXT SESSION
+    weeklyReportData = async () => {
+        let daysData = await this.mapWeatherDays()
+        let days = this.dateToString()
+        let obj = []
+
+        for (let i = 0; i <= days.length; i++) {
+            let card =  new WeatherCardComponent(days[0], )
+            obj.push(card)
+        }
+
+
+
+    }
+
+    // returns the Day PARSED value in WORDS FROM A NUMBER and time value in NUMBER
+    dateAndTimeToString = () => {
+
+        let dayAndTime;
+        let value = this.getDayAndTime().day
+        let time = this.getDayAndTime().time
+        let days = this.dateToString()
 
         dayAndTime = {
             "day": days[value],
