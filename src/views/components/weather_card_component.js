@@ -7,7 +7,7 @@ class WeatherCardComponent {
     }
 
 
-    cardComponent = () => {
+    renderCardComponent = () => {
         let cardContainer = document.createElement('div')
         cardContainer.setAttribute('class', 'card p-5 border border-0')
         cardContainer.setAttribute('style', 'width: 8rem;')
