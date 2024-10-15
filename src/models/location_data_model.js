@@ -5,7 +5,7 @@ import WeatherCardComponent from '../views/components/weather_card_component';
 
 class LocationData {
     constructor() {
-        this.init()
+        this.init(),
         this.weatherData = this.getData()
     }
 
@@ -17,12 +17,13 @@ class LocationData {
 
 
     // getting weather data.
-    getData = async () => {
+    getData = async (location = "london") => {
         try {
-            let url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/manila?unitGroup=metric&key=CYGZ6QWJKWSPTT82C7JP2D9Z2&contentType=json"
+            let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=CYGZ6QWJKWSPTT82C7JP2D9Z2&contentType=json`
             let get = await fetch(url)
             console.log(get.status)
             let data = await get.json()
+            this.weatherData = data
             return data
         } catch (err) {
             console.log(err)
@@ -136,7 +137,7 @@ class LocationData {
             obj.push(card)
         }
 
-        console.log(obj)
+        // console.log(obj)
         return obj
 
     }

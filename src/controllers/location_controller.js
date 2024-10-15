@@ -2,7 +2,8 @@ import LocationData from "../models/location_data_model"
 
 class LocationController {
     constructor() {
-        this.onLoad()
+        this.onLoad();
+        this.onSubmit()
     }
 
     locationModel = new LocationData()
@@ -10,8 +11,6 @@ class LocationController {
     onLoad = async () => {
         window.addEventListener("load", async () => {
             await this.loadInformation()
-
-
         })
     }
 
@@ -30,7 +29,12 @@ class LocationController {
         let textHumidity = document.querySelector("#humidity")
         let textVisibility = document.querySelector("#visibility")
         let cardsContainer = document.querySelector('#week')
+
+        cardsContainer.innerHTML = '';
         let cards = await this.cardComponents()
+        for (let i = 0; i <= 6; i++) {
+            cardsContainer.appendChild(cards[i])
+        }
 
 
 
@@ -46,7 +50,10 @@ class LocationController {
 
         ]);
 
-        cardsContainer.append(cards)
+        console.log('Fetched data:', {
+            png, temp, dateTime, location, description, sunrise, sunset, highlights
+        });
+
         temperatureToday.textContent = `${temp}°`
         dayToday.textContent = dateTime["day"]
         timeToday.textContent = dateTime["time"]
@@ -65,18 +72,33 @@ class LocationController {
 
     cardComponents = async () => {
         let cardsArray = await this.locationModel.weeklyReportData()
-        console.log(cardsArray, "dsadas")
+        // console.log(cardsArray, "dsadas")
         let cards = []
         cardsArray.map(card => {
             let htmldiv = card.renderCardComponent()
             cards.push(htmldiv)
-            console.log(card)
 
         })
 
-
+        
         return cards
     }
+
+    onSubmit = () => {
+        let locationFromForm = document.querySelector("#form-location");
+    
+        locationFromForm.addEventListener("submit", async (event) => {
+            event.preventDefault(); 
+    
+            let locationInput = document.querySelector("#location-input").value;
+    
+            // console.log(locationInput)
+            await this.locationModel.getData(locationInput);
+    
+            await this.loadInformation();
+        });
+    }
+    
 }
 
 export default LocationController
