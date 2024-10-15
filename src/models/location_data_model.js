@@ -29,7 +29,7 @@ class LocationData {
         }
     }
 
-    // returns the array of Days containing data about those days.
+    // returns the array of DAYS containing DATA about those days.
     mapWeatherDays = async () => {
         let jsonData = await this.weatherData
         let days = jsonData["days"]
@@ -43,6 +43,16 @@ class LocationData {
 
     }
 
+    // returns the array of TEMPERATURE in the NEXT 7 DAYS STARTING TODAY.
+    temperatureWeeklyReport = async () => {
+        let days = await this.mapWeatherDays()
+
+        let temperatures = days.map(day => day["temp"])
+
+        return temperatures
+
+    }
+
     // returns the single string of what icon to be displayed TODAY.
     weatherImageToday = async () => {
         let days = await this.mapWeatherDays()
@@ -50,16 +60,25 @@ class LocationData {
         return days[0]["icon"]
     }
 
+    // returns the IMAGES ICON in array of STRINGS for WEEKLY REPORT
     weatherImagesWeeklyReport = async () => {
-        let jsonDataDays = await this.mapWeatherDays()
-        let images = []
-        let daysLength = this.dateToString().length - 1
 
-        for (let i = 0; i <= daysLength; i++) {
-            images.push(jsonDataDays[i]["icon"])
+        try {
+            let jsonDataDays = await this.mapWeatherDays()
+            let images = []
+            let daysLength = jsonDataDays.length - 1
+    
+            for (let i = 0; i <= daysLength; i++) {
+                let image = this.weatherImagePNG(jsonDataDays[i]["icon"])
+                images.push(image)
+            }
+            // console.log(images)
+    
+            return images
+        } catch (err) {
+            console.log(err)
         }
-
-        return images
+        
     }
 
     // returns the temperature TODAY
@@ -71,21 +90,25 @@ class LocationData {
 
 
     // returns the WEEKLY REPORT'S DAYS IN AN ARRAY
-    mapDateTime = () => {
-        let data = this.mapWeatherDays()
+    mapDateTime = async () => {
+        let data = await this.mapWeatherDays()
         let days = []
         data.map(day => {
-            let whatDay = new Date.getDay(day["datetime"]) 
-            let whatDayInteger = this.dateToString(whatDay)
-            data.push(whatDayInteger)
+            let whatDay = new Date(day["datetime"])
+            let whatDayInteger = whatDay.getDay()
+
+            let theDay = this.dateToString(whatDayInteger)
+
+            days.push(theDay)
 
         })
 
+        // console.log(days)
         return days
     }
 
     // returns the DAY in STRING
-    dateToString = () => {
+    dateToString = (value) => {
         let days = {
             0: "Sunday",
             1: "Monday",
@@ -96,22 +119,25 @@ class LocationData {
             6: "Saturday",
         }
 
-        return days
+        return days[value]
     }
 
 
-    // THIS IS YET TO BE IMPLEMENTED IN THE NEXT SESSION
+    // returns the array of Weather Card Component Class
     weeklyReportData = async () => {
-        let daysData = await this.mapWeatherDays()
-        let days = this.dateToString()
+        let days = await this.mapDateTime()
         let obj = []
+        let images = await this.weatherImagesWeeklyReport()
+        let temps = await this.temperatureWeeklyReport()
 
         for (let i = 0; i <= days.length; i++) {
-            let card =  new WeatherCardComponent(days[0], )
+            let card = new WeatherCardComponent(days[i], images[i], temps[i])
+
             obj.push(card)
         }
 
-
+        console.log(obj)
+        return obj
 
     }
 
@@ -121,14 +147,22 @@ class LocationData {
         let dayAndTime;
         let value = this.getDayAndTime().day
         let time = this.getDayAndTime().time
-        let days = this.dateToString()
+        let days = {
+            0: "Sunday",
+            1: "Monday",
+            2: "Tuesday",
+            3: "Wednesday",
+            4: "Thursday",
+            5: "Friday",
+            6: "Saturday",
+        }
 
         dayAndTime = {
             "day": days[value],
             "time": time
 
         }
-        // console.log(dayAndTime)
+        console.log(value)
         return dayAndTime
     }
 
@@ -158,32 +192,32 @@ class LocationData {
     }
 
     getUVIndex = async () => {
-        let data =  await this.weatherData
+        let data = await this.weatherData
         return data["days"][0]["uvindex"]
     }
 
     getWindStatus = async () => {
         let data = await this.weatherData
         return data["days"][0]["windspeed"]
-        
+
     }
 
     getPrecipitationProbability = async () => {
         let data = await this.weatherData
         return data["days"][0]["precipprob"]
-        
+
     }
 
     getHumidity = async () => {
         let data = await this.weatherData
         return data["days"][0]["humidity"]
-        
+
     }
 
     getVisibility = async () => {
         let data = await this.weatherData
         return data["days"][0]["visibility"]
-        
+
     }
 
     getMoonphase = async () => {
@@ -202,19 +236,53 @@ class LocationData {
         ])
 
         const obj = {
-            "uvIndex" : uvIndex,
-            "windStatus" : `${windStatus}m/s`,
-            "precipitationProbabilty" : `${precipitationProbabilty}%`,
-            "humidity" : `${humidity}%`,
-            "visibility" : visibility,
-            "moonphase" : moonphase,
+            "uvIndex": uvIndex,
+            "windStatus": `${windStatus}m/s`,
+            "precipitationProbabilty": `${precipitationProbabilty}%`,
+            "humidity": `${humidity}%`,
+            "visibility": visibility,
+            "moonphase": moonphase,
         }
 
         return obj
     }
 
+    weatherImagePNG = (imageString) => {
+        let image;
+
+        switch (imageString) {
+            case "rain": {
+                image = rainyImage
+                break;
+            }
+            case "partly-cloudy-day": {
+
+            }
+            case "clear-day": {
+
+            }
+            case "cloudy"  : {
+                image = cloudyImage
+                break
+            }
+
+            case "sunny": {
+                image = sunnyImage
+                break
+            }
+            default: {
+                image = null
+                break
+            }
+        }
+
+        // console.log(image)
+        // return the IMAGE PNG STRING
+        return image
+    }
+
     // returns the IMAGE PNG in STRING of what icon to be displayed TODAY.
-    weatherImagePNG = async () => {
+    weatherImagePNGToday = async () => {
         let imageString = await this.weatherImageToday()
         let image;
 
@@ -224,19 +292,19 @@ class LocationData {
                 break;
             }
             case "partly-cloudy-day": {
-                
+
             }
-            case "cloudy" || "partly-cloudy-day": {
+            case "cloudy" || "partly-cloudy-day" || "clear-day": {
                 image = cloudyImage
                 break
             }
-            
+
             case "sunny": {
                 image = sunnyImage
                 break
             }
             default: {
-                image = null
+                image = sunnyImage
             }
         }
 

@@ -10,7 +10,7 @@ class LocationController {
     onLoad = async () => {
         window.addEventListener("load", async () => {
             await this.loadInformation()
-            
+
 
         })
     }
@@ -29,10 +29,13 @@ class LocationController {
         let textPrecipitationChance = document.querySelector("#precipitationChance")
         let textHumidity = document.querySelector("#humidity")
         let textVisibility = document.querySelector("#visibility")
+        let cardsContainer = document.querySelector('#week')
+        let cards = await this.cardComponents()
+
 
 
         const [png, temp, dateTime, location, description, sunrise, sunset, highlights] = await Promise.all([
-            this.locationModel.weatherImagePNG(),
+            this.locationModel.weatherImagePNGToday(),
             this.locationModel.getTemperatureToday(),
             this.locationModel.dateAndTimeToString(),
             this.locationModel.getLocation(),
@@ -43,6 +46,7 @@ class LocationController {
 
         ]);
 
+        cardsContainer.append(cards)
         temperatureToday.textContent = `${temp}°`
         dayToday.textContent = dateTime["day"]
         timeToday.textContent = dateTime["time"]
@@ -56,6 +60,22 @@ class LocationController {
         textHumidity.textContent = highlights["humidity"]
         textVisibility.textContent = highlights["visibility"]
         weatherImageToday.setAttribute('src', png)
+
+    }
+
+    cardComponents = async () => {
+        let cardsArray = await this.locationModel.weeklyReportData()
+        console.log(cardsArray, "dsadas")
+        let cards = []
+        cardsArray.map(card => {
+            let htmldiv = card.renderCardComponent()
+            cards.push(htmldiv)
+            console.log(card)
+
+        })
+
+
+        return cards
     }
 }
 
